@@ -1,0 +1,14 @@
+1.	A coin toss decides starting player
+2.	4 coin tosses determine the number of moves a player takes
+3.	All moves must be spent on the same piece for each turn. That piece must move that many spaces, unless it reaches the end, in which case the remaining moves are expended.
+4.	A tile can only be occupied by 1 piece, except the start and end 'tile'
+5.	Moving a piece onto a tile occupied by an enemy pice displaces the enemy's piece, and sends it piece back to the start (except flowered tiles)
+6.	Moving a piece onto a flowered tile grants another turn
+7.	
+
+
+A.	If an illegal move is made, the player passes the turn.
+		i.e. the player can only pass the turn if an illegal move is made
+		e.g. move a piece at the end forward
+			move a piece onto an occupied safe tile
+			move a piece onto a tile occupied by a friendly piece
