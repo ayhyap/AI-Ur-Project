@@ -56,65 +56,6 @@ def move(color, piece, moves):
             whitePieces[init.boardState[position][1]-1].moveForward(moves)
     return
 
-    
-    if color == 0:
-        #black
-        for i in range(14,12,-1):
-            if init.boardState[i][0] < 0:
-                piece -= 1
-            if piece == 0:
-                blackPieces[init.boardState[i][0]*-1-1].moveForward(moves)
-                return
-        for i in range(12,4,-1):
-            if init.boardState[i] < 0:
-                piece-=1
-            if piece == 0:
-                blackPieces[init.boardState[i]*-1-1].moveForward(moves)
-                return
-        for i in range(4,0,-1):
-            if init.boardState[i][0] < 0:
-                piece -= 1
-            if piece == 0:
-                blackPieces[init.boardState[i][0]*-1-1].moveForward(moves)
-                return
-        if piece > init.boardState[0][0]:
-            #invalid move!
-            return
-        else:
-            #pick any one from start pile
-            for i in range(0,7,1):
-                if blackPieces[i].position == 0:
-                    blackPieces[i].moveForward(moves)
-                    return
-    else:
-        #white
-        for i in range(14,12,-1):
-            if init.boardState[i][1] > 0:
-                piece -= 1
-            if piece == 0:
-                whitePieces[init.boardState[i][1]-1].moveForward(moves)
-                return
-        for i in range(12,4,-1):
-            if init.boardState[i] > 0:
-                piece-=1
-            if piece == 0:
-                whitePieces[init.boardState[i]-1].moveForward(moves)
-                return
-        for i in range(4,0,-1):
-            if init.boardState[i][1] > 0:
-                piece -= 1
-            if piece == 0:
-                whitePieces[init.boardState[i][1]-1].moveForward(moves)
-                return
-        if piece > init.boardState[0][1]:
-            #invalid move!
-            return
-        else:
-            #pick any one from start pile
-            for i in range(0,7,1):
-                if whitePieces[i].position == 0:
-                    whitePieces[i].moveForward(moves)
-                    return
 
 #LET the furthest piece (not at end) be piece number 1.
 #piece number 2 is the next one behind, and so on.
