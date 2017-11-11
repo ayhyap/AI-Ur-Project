@@ -12,3 +12,27 @@ A.	If an illegal move is made, the player passes the turn.
 		e.g. move a piece at the end forward
 			move a piece onto an occupied safe tile
 			move a piece onto a tile occupied by a friendly piece
+
+
+NN inputs
+-moves to take				1
+-distance to enemy pieces, sorted by distance	7x7
+-distance to friendly pieces, sorted by distance	6x7
+-location of white pieces, sorted by progress	7
+-location of black pieces, sorted by progress	7
+
+
+Hidden layers
+-start with 2, increase with mutation
+-
+
+NN outputs
+-which piece to move	7
+	take max to decide action
+
+
+Evolution
+-Play -> half lose -> killed
+-Remaining half 'breed' twice, to bring to original population
+	breed done by randomly taking half of each parent's weight
+
