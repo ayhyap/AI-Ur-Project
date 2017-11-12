@@ -1,5 +1,7 @@
 import Test as init
 import random
+import globalVars
+import turtle
 
 init.screenSetup()
 
@@ -23,6 +25,7 @@ turn = random.randrange(0,2,1)
 #LET the furthest piece (not at end) be piece number 1.
 #piece number 2 is the next one behind, and so on.
 #pieces in start pile are arbitrarily ordered
+#print init.boardState
 def move(color, piece, moves):
     temp = getPiecePositions(color)
     offset = 0
@@ -33,7 +36,8 @@ def move(color, piece, moves):
             offset += 1
     if offset+piece-1 > 6:
         #invalid move
-        return
+        print "invalid move"
+        return False
     
     position = temp[offset + piece - 1]
     
@@ -41,21 +45,24 @@ def move(color, piece, moves):
     if color == 0:
         #black
         if position > 4 and position < 13:
-            blackPieces[init.boardState[position]*-1-1].moveForward(moves)
+            return blackPieces[init.boardState[position]*-1-1].moveForward(moves)
         elif position == 0:
             for i in range(0,7,1):
                 if blackPieces[i].position == 0:
-                    blackPieces[i].moveForward(moves)
+                    return blackPieces[i].moveForward(moves)
         else:
-            blackPieces[init.boardState[position][0]*-1-1].moveForward(moves)
+            return blackPieces[init.boardState[position][0]*-1-1].moveForward(moves)
     else:
         #white
         if position > 4 and position < 13:
-            whitePieces[init.boardState[position]-1].moveForward(moves)
+            return whitePieces[init.boardState[position]-1].moveForward(moves)
+        elif position == 0:
+            for i in range(0,7,1):
+                if whitePieces[i].position == 0:
+                    return whitePieces[i].moveForward(moves)
         else:
-            whitePieces[init.boardState[position][1]-1].moveForward(moves)
+            return whitePieces[init.boardState[position][1]-1].moveForward(moves)
     return
-
 
 #LET the furthest piece (not at end) be piece number 1.
 #piece number 2 is the next one behind, and so on.

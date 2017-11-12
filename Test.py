@@ -1,11 +1,12 @@
 import turtle
 import board
+import globalVars
 
 #global score turtles, because i'm lazy
-whiteStartCount = turtle.Turtle()
-blackStartCount = turtle.Turtle()
-whiteEndCount = turtle.Turtle()
-blackEndCount = turtle.Turtle()
+whiteStartCount = 0
+blackStartCount = 0
+whiteEndCount = 0
+blackEndCount = 0
 
 
 #initialize piece turtles
@@ -16,41 +17,55 @@ boardState = [[7,7],[0,0],[0,0],[0,0],[0,0],0,0,0,0,0,0,0,0,[0,0],[0,0],[0,0]]  
 
     
 def screenSetup():
-    board.draw()
-
-    #score turtles
-    whiteStartCount.hideturtle()
-    whiteStartCount.up()
-    whiteStartCount.goto(0,250)
-    whiteStartCount.write("0",False,"center",("Arial", 20, "normal"))
-
-    blackStartCount.hideturtle()
-    blackStartCount.up()
-    blackStartCount.goto(0,-280)
-    blackStartCount.write("0",False,"center",("Arial", 20, "normal"))
-
-    whiteEndCount.hideturtle()
-    whiteEndCount.up()
-    whiteEndCount.goto(200,250)
-    whiteEndCount.write("0",False,"center",("Arial", 20, "normal"))
-
-    blackEndCount.hideturtle()
-    blackEndCount.up()
-    blackEndCount.goto(200,-280)
-    blackEndCount.write("0",False,"center",("Arial", 20, "normal"))
+    if globalVars.turtleMode: 
+        global whiteStartCount
+        global blackStartCount
+        global whiteEndCount
+        global blackEndCount
+        
+        whiteStartCount = turtle.Turtle()
+        blackStartCount = turtle.Turtle()
+        whiteEndCount = turtle.Turtle()
+        blackEndCount = turtle.Turtle()
+        board.draw()
+    
+        #score turtles
+        whiteStartCount.hideturtle()
+        whiteStartCount.up()
+        whiteStartCount.goto(0,250)
+        whiteStartCount.write("0",False,"center",("Arial", 20, "normal"))
+    
+        blackStartCount.hideturtle()
+        blackStartCount.up()
+        blackStartCount.goto(0,-280)
+        blackStartCount.write("0",False,"center",("Arial", 20, "normal"))
+    
+        whiteEndCount.hideturtle()
+        whiteEndCount.up()
+        whiteEndCount.goto(200,250)
+        whiteEndCount.write("0",False,"center",("Arial", 20, "normal"))
+    
+        blackEndCount.hideturtle()
+        blackEndCount.up()
+        blackEndCount.goto(200,-280)
+        blackEndCount.write("0",False,"center",("Arial", 20, "normal"))
 
 #helper functions:
 
 #sets score turtle
 def setScore(inTurtle,value):
-    inTurtle.clear()
-    inTurtle.write(value,False,"center",("Arial", 20, "normal"))
+    
+    if globalVars.turtleMode:
+        inTurtle.clear()
+        inTurtle.write(value,False,"center",("Arial", 20, "normal"))
 
 def updateScore():
-    setScore(whiteEndCount,boardState[15][1])
-    setScore(whiteStartCount,boardState[0][1])
-    setScore(blackEndCount,boardState[15][0])
-    setScore(blackStartCount,boardState[0][0])
+    
+    if globalVars.turtleMode: 
+        setScore(whiteEndCount,boardState[15][1])
+        setScore(whiteStartCount,boardState[0][1])
+        setScore(blackEndCount,boardState[15][0])
+        setScore(blackStartCount,boardState[0][0])
 
 #sets boardstate index to 0
 #index is 0 to 15
@@ -68,15 +83,18 @@ def removeFromIndex(index,color):
 
 
 def resetBoard():
+    
     global boardState
     boardState = [[7,7],[0,0],[0,0],[0,0],[0,0],0,0,0,0,0,0,0,0,[0,0],[0,0],[0,0]]
     for piece in BlackPiece.pieces:
         piece.position = 0
-        piece.piece.goto(BlackPiece.path[0][0],BlackPiece.path[0][1])
+        if globalVars.turtleMode:
+            piece.piece.goto(BlackPiece.path[0][0],BlackPiece.path[0][1])
 
     for piece in WhitePiece.pieces:
         piece.position = 0
-        piece.piece.goto(WhitePiece.path[0][0],WhitePiece.path[0][1])
+        if globalVars.turtleMode:
+            piece.piece.goto(WhitePiece.path[0][0],WhitePiece.path[0][1])
     updateScore()
 
 
@@ -88,14 +106,16 @@ class BlackPiece:
 
     #constructor
     def __init__(self):
-        #turtle stuff
-        self.piece = turtle.Turtle()
-        self.piece.resizemode("user")
-        self.piece.turtlesize(3,3,1)
-        self.piece.up()
-        self.piece.shape("circle")
-        self.piece.fillcolor("black")
-        self.piece.goto(BlackPiece.path[0][0],BlackPiece.path[0][1])
+        
+        if globalVars.turtleMode:
+            #turtle stuff
+            self.piece = turtle.Turtle()
+            self.piece.resizemode("user")
+            self.piece.turtlesize(3,3,1)
+            self.piece.up()
+            self.piece.shape("circle")
+            self.piece.fillcolor("black")
+            self.piece.goto(BlackPiece.path[0][0],BlackPiece.path[0][1])
 
         #housekeeping
         BlackPiece.pieceCount+=1
@@ -109,6 +129,7 @@ class BlackPiece:
     #returns true if extra turn (land on flowered tile)
     #returns false otherwise
     def moveForward(self, steps):
+        
         #check if invalid steps (or 0 steps): do nothing you filthy cheater
         if steps < 1 or steps > 4:
             return False
@@ -123,7 +144,8 @@ class BlackPiece:
                 
                 boardState[temp] = self.id * -1     #add to new spot
                 self.position = temp                #update self position
-                self.piece.goto(BlackPiece.path[temp][0],BlackPiece.path[temp][1])  #move turtle
+                if globalVars.turtleMode:
+                    self.piece.goto(BlackPiece.path[temp][0],BlackPiece.path[temp][1])  #move turtle
                 if temp == 8:
                     #flower tile
                     return True
@@ -138,7 +160,8 @@ class BlackPiece:
                     boardState[temp] = self.id * -1     #add to new spot
                     updateScore()
                     self.position = temp                #update self position
-                    self.piece.goto(BlackPiece.path[temp][0],BlackPiece.path[temp][1])  #move turtle
+                    if globalVars.turtleMode:
+                        self.piece.goto(BlackPiece.path[temp][0],BlackPiece.path[temp][1])  #move turtle
                     return True
             else:   #occupied by BLACK piece (friendly)
                 #do nothing
@@ -151,14 +174,16 @@ class BlackPiece:
                 removeFromIndex(self.position,0)    #remove from original spot
                 updateScore()
                 self.position = 15
-                self.piece.goto(BlackPiece.path[15][0],BlackPiece.path[15][1])
+                if globalVars.turtleMode:
+                    self.piece.goto(BlackPiece.path[15][0],BlackPiece.path[15][1])
                 return False
             elif boardState[temp][0] == 0:    #empty tile
                 removeFromIndex(self.position,0)    #remove from original spot
                     
                 boardState[temp][0] = self.id * -1  #add to new spot
                 self.position = temp                #update self position
-                self.piece.goto(BlackPiece.path[temp][0],BlackPiece.path[temp][1])  #move turtle
+                if globalVars.turtleMode:
+                    self.piece.goto(BlackPiece.path[temp][0],BlackPiece.path[temp][1])  #move turtle
                 if temp == 4 or temp == 14:
                     #flower tile
                     return True
@@ -169,9 +194,11 @@ class BlackPiece:
 
     #send a piece back to start and update boardState        
     def reset(self):
+        
         boardState[0][0] += 1
         removeFromIndex(self.position, 0)
-        self.piece.goto(BlackPiece.path[0][0],BlackPiece.path[0][1])
+        if globalVars.turtleMode:
+            self.piece.goto(BlackPiece.path[0][0],BlackPiece.path[0][1])
         self.position = 0
         
 
@@ -183,14 +210,16 @@ class WhitePiece:
 
     #constructor
     def __init__(self):
-        #turtle stuff
-        self.piece = turtle.Turtle()
-        self.piece.resizemode("user")
-        self.piece.turtlesize(3,3,1)
-        self.piece.up()
-        self.piece.shape("circle")
-        self.piece.fillcolor("white")
-        self.piece.goto(WhitePiece.path[0][0],WhitePiece.path[0][1])
+        
+        if globalVars.turtleMode:
+            #turtle stuff
+            self.piece = turtle.Turtle()
+            self.piece.resizemode("user")
+            self.piece.turtlesize(3,3,1)
+            self.piece.up()
+            self.piece.shape("circle")
+            self.piece.fillcolor("white")
+            self.piece.goto(WhitePiece.path[0][0],WhitePiece.path[0][1])
         
         #housekeeping
         WhitePiece.pieceCount+=1
@@ -204,6 +233,7 @@ class WhitePiece:
     #returns true if extra turn (land on flowered tile)
     #returns false otherwise
     def moveForward(self, steps):
+        
         #check if invalid steps (or 0 steps): do nothing you filthy cheater
         if steps < 1 or steps > 4:
             return False
@@ -218,7 +248,8 @@ class WhitePiece:
                 
                 boardState[temp] = self.id          #add to new spot
                 self.position = temp                #update self position
-                self.piece.goto(WhitePiece.path[temp][0],WhitePiece.path[temp][1])  #move turtle
+                if globalVars.turtleMode:
+                    self.piece.goto(WhitePiece.path[temp][0],WhitePiece.path[temp][1])  #move turtle
                 if temp == 8:
                     #flower tile
                     return True
@@ -233,7 +264,8 @@ class WhitePiece:
                     updateScore()
                     boardState[temp] = self.id          #add to new spot
                     self.position = temp                #update self position
-                    self.piece.goto(WhitePiece.path[temp][0],WhitePiece.path[temp][1])  #move turtle
+                    if globalVars.turtleMode:
+                        self.piece.goto(WhitePiece.path[temp][0],WhitePiece.path[temp][1])  #move turtle
                     return True
             else:   #occupied by WHITE piece (friendly)
                 #do nothing
@@ -246,14 +278,16 @@ class WhitePiece:
                 removeFromIndex(self.position,1)    #remove from original spot
                 updateScore()
                 self.position = 15
-                self.piece.goto(WhitePiece.path[15][0],WhitePiece.path[15][1])
+                if globalVars.turtleMode:
+                    self.piece.goto(WhitePiece.path[15][0],WhitePiece.path[15][1])
                 return False
             elif boardState[temp][1] == 0:    #empty tile
                 removeFromIndex(self.position,1)    #remove from original spot
                     
                 boardState[temp][1] = self.id       #add to new spot
                 self.position = temp                #update self position
-                self.piece.goto(WhitePiece.path[temp][0],WhitePiece.path[temp][1])  #move turtle
+                if globalVars.turtleMode:
+                    self.piece.goto(WhitePiece.path[temp][0],WhitePiece.path[temp][1])  #move turtle
                 if temp == 4 or temp == 14:
                     #flower tile
                     return True
@@ -264,7 +298,9 @@ class WhitePiece:
 
     #send a piece back to start and update boardState        
     def reset(self):
+        
         boardState[0][1] += 1
         removeFromIndex(self.position, 1)
-        self.piece.goto(WhitePiece.path[0][0],WhitePiece.path[0][1])
+        if globalVars.turtleMode:
+            self.piece.goto(WhitePiece.path[0][0],WhitePiece.path[0][1])
         self.position = 0
