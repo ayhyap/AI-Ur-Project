@@ -1,0 +1,1 @@
+pieceToMove = mainBoard.networks[ ].run ( nnInputGen(moves) )
