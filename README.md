@@ -6,8 +6,6 @@ USES PYTHON 2.7.3
 
 Run playMain.py from python shell
 
-BUG: Attempting to move a black piece in the end pile will move another piece not in the end pile.
-
 =====
 
 Change turtleMode to False in globalVars.py to disable graphics (for faster processing).
