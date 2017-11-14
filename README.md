@@ -8,14 +8,19 @@ Run playMain.py from python shell
 
 BUG: Attempting to move a black piece in the end pile will move another piece not in the end pile.
 
+=====
+
 Change turtleMode to False in globalVars.py to disable graphics (for faster processing).
 
 All graphics-unrelated functions should still work. Rely on print init.boardState and other functions to check status.
+
+=====
 
 Program will reach the game 'while loop', and prompt user to input a piece to move.
 
 The integer to input is defined as the n-th furthest piece on the board of that colour, INCLUDING PIECES IN THE END PILE.
 
+=====
 
 If you keyboard interrupt (ctrl+c) you can manually type in function to control pieces.
 
