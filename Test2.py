@@ -3,21 +3,21 @@ import random
 import globalVars
 import turtle
 
-init.screenSetup()
+##init.screenSetup()
 
 #initialize piece turtles
 #boardState = [[7,7],[0,0],[0,0],[0,0],[0,0],0,0,0,0,0,0,0,0,[0,0],[0,0],[0,0]]    #0 is none, negative integers is black, positive integers is white
 #             start   1     2     3     4*  1 2 3 4*5 6 7 8   1     2*   end      #for combined zones, [black, white]
 #               [0]   1     2     3     4   5 6 7 8 9 101112  13   14    15
 
-blackPieces = []
-whitePieces = []
+##blackPieces = []
+##whitePieces = []
 
-for i in range(7):
-    init.setScore(init.blackStartCount,i+1)
-    blackPieces.append(init.BlackPiece())
-    init.setScore(init.whiteStartCount,i+1)
-    whitePieces.append(init.WhitePiece())
+##for i in range(7):
+##    init.setScore(init.blackStartCount,i+1)
+##    blackPieces.append(init.BlackPiece())
+##    init.setScore(init.whiteStartCount,i+1)
+##    whitePieces.append(init.WhitePiece())
 
 #LET the furthest piece (not at end) be piece number 1.
 #piece number 2 is the next one behind, and so on.
@@ -42,23 +42,29 @@ def move(color, piece, moves):
     if color == 0:
         #black
         if position > 4 and position < 13:
-            return blackPieces[init.boardState[position]*-1-1].moveForward(moves)
+            return init.BlackPiece.pieces[init.boardState[position]*-1-1].moveForward(moves)
+            #return blackPieces[init.boardState[position]*-1-1].moveForward(moves)
         elif position == 0:
             for i in range(0,7,1):
-                if blackPieces[i].position == 0:
-                    return blackPieces[i].moveForward(moves)
+                if init.BlackPiece.pieces[i].position == 0:
+                    return init.BlackPiece.pieces[i].moveForward(moves)
+                    #return blackPieces[i].moveForward(moves)
         else:
-            return blackPieces[init.boardState[position][0]*-1-1].moveForward(moves)
+            return init.BlackPiece.pieces[init.boardState[position][0]*-1-1].moveForward(moves)
+            #return blackPieces[init.boardState[position][0]*-1-1].moveForward(moves)
     else:
         #white
         if position > 4 and position < 13:
-            return whitePieces[init.boardState[position]-1].moveForward(moves)
+            return init.WhitePiece.pieces[init.boardState[position]-1].moveForward(moves)
+            #return whitePieces[init.boardState[position]-1].moveForward(moves)
         elif position == 0:
             for i in range(0,7,1):
-                if whitePieces[i].position == 0:
-                    return whitePieces[i].moveForward(moves)
+                if init.WhitePiece.pieces[i].position == 0:
+                    return init.WhitePiece.pieces[i].moveForward(moves)
+                    #return whitePieces[i].moveForward(moves)
         else:
-            return whitePieces[init.boardState[position][1]-1].moveForward(moves)
+            return init.WhitePiece.pieces[init.boardState[position][1]-1].moveForward(moves)
+            #return whitePieces[init.boardState[position][1]-1].moveForward(moves)
     return
 
 #LET the furthest piece be piece number 1.
@@ -125,36 +131,27 @@ def nnInputGen(moves):
     return temp
     
 
-turn = random.randrange(0,2,1)
+##turn = random.randrange(0,2,1)
 
-#MAIN LOOP
-while checkWin() == 0:
-    moves = diceRoll()
-    if turn == 0:
-        #black turn
-##        pieceToMove = process()
-        print "BLACK TURN"
-        print "Black rolls " + str(moves)
-        pieceToMove = input("ENTER PIECE TO MOVE: ")
-        extraTurn = move(0,pieceToMove,moves)
-    else:
-        #white turn
-##        pieceToMove = process()
-        print "WHITE TURN"
-        print "White rolls " + str(moves)
-        pieceToMove = input("ENTER PIECE TO MOVE: ")
-        extraTurn = move(1,pieceToMove,moves)
-
-    if not extraTurn:
-        turn += 1
-        turn %= 2
-
-ai.terminate()
-    
-print turn
-
-if end == 0:
-    print "WHITE WINS"
-else:
-    print "BLACK WINS"
+###MAIN LOOP
+##while checkWin() == 0:
+##    moves = diceRoll()
+##    if turn == 0:
+##        #black turn
+####        pieceToMove = process()
+####        print "BLACK TURN"
+####        print "Black rolls " + str(moves)
+####        pieceToMove = input("ENTER PIECE TO MOVE: ")
+##        extraTurn = move(0,pieceToMove,moves)
+##    else:
+##        #white turn
+####        pieceToMove = process()
+####        print "WHITE TURN"
+####        print "White rolls " + str(moves)
+####        pieceToMove = input("ENTER PIECE TO MOVE: ")
+##        extraTurn = move(1,pieceToMove,moves)
+##
+##    if not extraTurn:
+##        turn += 1
+##        turn %= 2
 #init.turtle.done()
