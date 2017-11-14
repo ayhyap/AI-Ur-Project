@@ -44,8 +44,11 @@ while board.checkWin() == 0:
         pieceToMove = input("ENTER PIECE TO MOVE: ")
         extraTurn = board.move(1,pieceToMove,moves)
 
-    if not extraTurn:
+    if extraTurn:
+        print "Piece lands on a flowered tile, granting an EXTRA TURN!"
+    else:
         turn += 1
         turn %= 2
+        
 
 print board.checkWin()
