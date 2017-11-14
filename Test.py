@@ -162,7 +162,7 @@ class BlackPiece:
                     self.position = temp                #update self position
                     if globalVars.turtleMode:
                         self.piece.goto(BlackPiece.path[temp][0],BlackPiece.path[temp][1])  #move turtle
-                    return True
+                    return False
             else:   #occupied by BLACK piece (friendly)
                 #do nothing
                 return False;
@@ -266,7 +266,7 @@ class WhitePiece:
                     self.position = temp                #update self position
                     if globalVars.turtleMode:
                         self.piece.goto(WhitePiece.path[temp][0],WhitePiece.path[temp][1])  #move turtle
-                    return True
+                    return False
             else:   #occupied by WHITE piece (friendly)
                 #do nothing
                 return False;

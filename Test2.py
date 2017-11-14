@@ -19,9 +19,6 @@ for i in range(7):
     init.setScore(init.whiteStartCount,i+1)
     whitePieces.append(init.WhitePiece())
 
-end = 0
-turn = random.randrange(0,2,1)
-
 #LET the furthest piece (not at end) be piece number 1.
 #piece number 2 is the next one behind, and so on.
 #pieces in start pile are arbitrarily ordered
@@ -29,15 +26,15 @@ turn = random.randrange(0,2,1)
 def move(color, piece, moves):
     temp = getPiecePositions(color)
     offset = 0
-    for i in range(0,7,1):
-        if temp[i] != 15:
-            break
-        else:
-            offset += 1
-    if offset+piece-1 > 6:
-        #invalid move
-        print "invalid move"
-        return False
+##    for i in range(0,7,1):
+##        if temp[i] != 15:
+##            break
+##        else:
+##            offset += 1
+##    if offset+piece-1 > 6:
+##        #invalid move
+##        print "invalid move"
+##        return False
     
     position = temp[offset + piece - 1]
     
@@ -64,9 +61,9 @@ def move(color, piece, moves):
             return whitePieces[init.boardState[position][1]-1].moveForward(moves)
     return
 
-#LET the furthest piece (not at end) be piece number 1.
+#LET the furthest piece be piece number 1.
 #piece number 2 is the next one behind, and so on.
-#pieces in start pile are arbitrarily ordered
+#pieces in start pile and end pile are arbitrarily ordered
 #0 is black, 1 is white
 def getPiecePositions(color):
     positions = []
@@ -98,12 +95,65 @@ def getPiecePositions(color):
     return positions
 
 
-#while end == 0:
+def checkWin():
+    if init.boardState[15][0] == 7:
+        return -1
+    elif init.boardState[15][1] == 7:
+        return 1
+    else:
+        return 0
+
+
+def diceRoll():
+    return random.randrange(0,2,1) + random.randrange(0,2,1) + random.randrange(0,2,1) + random.randrange(0,2,1)
+
+def nnInputGen(moves):
+    temp = []
+    temp.append(moves)  #[0]: moves
+    temp.append(11)      #[1]: distance from flower tile 1 to end
+    temp.append(7)      #[2]: distance from flower tile 2 to end
+    temp.append(1)     #[3]: distance from flower tile 3 to end
+    positions = getPiecePositions(0)
+    for i in range(0,7,1):
+        positions[i] = 15 - positions[i]
+    temp += positions
+
+    positions = getPiecePositions(1)
+    for i in range(0,7,1):
+        positions[i] = 15 - positions[i]
+    temp += positions
+    return temp
     
+
+turn = random.randrange(0,2,1)
+
+#MAIN LOOP
+while checkWin() == 0:
+    moves = diceRoll()
+    if turn == 0:
+        #black turn
+##        pieceToMove = process()
+        print "BLACK TURN"
+        print "Black rolls " + str(moves)
+        pieceToMove = input("ENTER PIECE TO MOVE: ")
+        extraTurn = move(0,pieceToMove,moves)
+    else:
+        #white turn
+##        pieceToMove = process()
+        print "WHITE TURN"
+        print "White rolls " + str(moves)
+        pieceToMove = input("ENTER PIECE TO MOVE: ")
+        extraTurn = move(1,pieceToMove,moves)
+
+    if not extraTurn:
+        turn += 1
+        turn %= 2
+
+ai.terminate()
     
 print turn
 
-if end == 1:
+if end == 0:
     print "WHITE WINS"
 else:
     print "BLACK WINS"

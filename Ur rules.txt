@@ -19,12 +19,23 @@ NN inputs
 -distance to enemy pieces, sorted by distance	7x7
 -distance to friendly pieces, sorted by distance	6x7
 -location of white pieces, sorted by progress	7
+	REPLACE: distance to end of white pieces
 -location of black pieces, sorted by progress	7
+	REPLACE: distance to end of black pieces
+-friendly piece distance to flower piece		3x7
+-enemy piece distance to flower piece 		3x7
+					148
 
+Simplified model:
+-moves to take				1
+-distance to end of white pieces, sorted		7
+-distance to end of black pieces, sorted		7
+-location of flower tiles (fixed)			3
+					18
 
 Hidden layers
--start with 2, increase with mutation
--
+-start with 3, increase with mutation
+-nodes
 
 NN outputs
 -which piece to move	7
