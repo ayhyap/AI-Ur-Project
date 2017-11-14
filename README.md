@@ -26,10 +26,14 @@ Use board.move(color = 0 (black) or 1 (white), pieceNo = 1 to 7, moves = 0 to 4)
 
 PieceNo of board.move() is defined as the n-th furthest piece on the board of that color, INCLUDING PIECES IN THE END PILE.
 
-
-
 Use board.getPiecePositions(color = 0 (black) or 1 (white)) to get a sorted array of piece positions of that color (largest first).
 
 Use init.resetBoard() to reset everything to the start state.
 
 Enter turtle.done() to be able to close the graphics window properly.
+
+======
+
+Extras:
+
+matchmaker.py contains a simple function that chooses pairs, gradually reducing the gap
