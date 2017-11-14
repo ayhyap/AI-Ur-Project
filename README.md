@@ -24,11 +24,13 @@ The integer to input is defined as the n-th furthest piece on the board of that 
 
 If you keyboard interrupt (ctrl+c) you can manually type in function to control pieces.
 
-Use move(color = 0 (black) or 1 (white), pieceNo = 1 to 7, moves = 0 to 4) to move pieces.
+Use board.move(color = 0 (black) or 1 (white), pieceNo = 1 to 7, moves = 0 to 4) to move pieces.
 
-PieceNo of move() is defined as the n-th furthest piece on the board of that color, INCLUDING PIECES IN THE END PILE.
+PieceNo of board.move() is defined as the n-th furthest piece on the board of that color, INCLUDING PIECES IN THE END PILE.
 
-Use getPiecePositions(color = 0 (black) or 1 (white)) to get a sorted array of piece positions of that color (largest first).
+
+
+Use board.getPiecePositions(color = 0 (black) or 1 (white)) to get a sorted array of piece positions of that color (largest first).
 
 Use init.resetBoard() to reset everything to the start state.
 
