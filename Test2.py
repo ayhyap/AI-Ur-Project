@@ -78,6 +78,17 @@ def checkWin():
     else:
         return 0
 
+def breakTie():
+    if init.boardState[15][0] < init.boardState[15][1]:
+        return -1
+    if init.boardState[15][0] > init.boardState[15][1]:
+        return 1
+    if init.boardState[0][0] > init.boardState[0][1]:
+        return -1
+    if init.boardState[0][0] < init.boardState[0][1]:
+        return 1
+    return 0
+
 #Binom(4,0.5), 4 coin tosses
 def diceRoll():
     return random.randrange(0,2,1) + random.randrange(0,2,1) + random.randrange(0,2,1) + random.randrange(0,2,1)
