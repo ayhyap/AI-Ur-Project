@@ -3,7 +3,7 @@ import Test as init
 import random
 import turtle
 import finalExpectimax as ExpectiMax
-
+import mainBoard as NN
 
 init.screenSetup()
 for i in range(7):
@@ -45,8 +45,9 @@ while board.checkWin() == 0:
             turn += 1
             turn %= 2
             continue
-        #pieceToMove = input("ENTER PIECE TO MOVE: ")
-        extraTurn = board.move(1, ExpectiMax.moveByExpectimax(init.boardState, ExpectiMax.Color.WHITE, moves, 1),moves)  # expectimax implementation
+        pieceToMove = input("ENTER PIECE TO MOVE: ")
+        extraTurn = board.move(1, pieceToMove, moves)
+        #extraTurn = board.move(1, NN.networks[1].run(board.nnInputGen(moves)), moves)
 
     if extraTurn:
         print "Piece lands on a flowered tile, granting an EXTRA TURN!"

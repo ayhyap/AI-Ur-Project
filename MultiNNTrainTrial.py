@@ -3,20 +3,8 @@ import Test as init
 import weights
 import csv
 import random
+import multiprocessing
 #import ExMax.py
-
-networksBest = []
-networks = []
-wins = []
-
-generation = 0
-generation_limit = 100
-
-
-#Generates 100 networks and initializes a list to count the amount of game wins for each network
-for i in range(0,100,1):
-    networks.append(weights.network())
-    wins.append(0)
 
 #Prints a networks information to a csv file for future use
 def write(network, string):
@@ -153,6 +141,7 @@ def train():
                 continue
 ##                print "TIE"
 
+
 ##train()
 ##print(wins)
 ##print(len(wins))
@@ -175,6 +164,7 @@ def cull():
 
 
 def Matchmaker(ppl):
+    global generation
     gap = ppl/2 - generation
     if gap < 1:
         gap = 1
@@ -183,33 +173,135 @@ def Matchmaker(ppl):
     for i in range(gap*2, ppl, 2):
         networks.append(weights.network.child(networks[i],networks[i+1]))
 
+
+
+
+def trainWorker(i,j, return_queue, networkI, networkJ):
+##def trainWorker(i,j):
+    winner = play(networkI,networkJ)
+    if winner == 1:
+        #print str(i) + " WIN  " + str(j)
+        return_queue.put(i)
+    elif winner == -1:
+        #print str(i) + " LOSE " + str(j)
+        return_queue.put(j)
+        #print str(i) + " TIE  " + str(j)
+    return
+
+
+##def multiTrain():
+if __name__ == '__main__':
+    print "INITIALIZATION"
+    networksBest = []
+    networks = []
+    wins = []
+
+    generation = 0
+    generation_limit = 100
+
+    
+    #Generates 100 networks and initializes a list to count the amount of game wins for each network
+    for i in range(0,100,1):
+        networks.append(weights.network())
+        wins.append(0)
+
+    
+    queue1 = multiprocessing.Queue()
+    queue2 = multiprocessing.Queue()
+
+    queues = [queue1, queue2]
+
+
+    for h in range(0,generation_limit,1):
+    
+        print "==BEGIN " + str(h) + "th GENERATION ROUND ROBIN=="
+        for i in range(0, len(networks) - 1,1):
+            qIndex = i%2
+            print "Competitor: " + str(i)
+            jobs = []
+            for j in range(i+1, len(networks),1):
+                p = multiprocessing.Process(target = trainWorker, args=(i,j,queues[qIndex], networks[i], networks[j]))
+                jobs.append(p)
+                p.start()
+                if len(jobs) == 8:
+                    jobs[0].join()
+                qIndex = (i+1)%2
+            while queues[qIndex].empty() == False:
+                wins[queues[qIndex].get()] += 1
+            for proc in jobs:
+                proc.join()
+            
+
+        
+                
+        print str(h) + "th ROUND ROBIN RESULTS:"
+        print wins
+        print "Average: " + str(float(sum(wins))/len(wins))
+        print "Max: " + str(max(wins))
+        print "Min: " + str(min(wins))
+        print('Culling Networks')    
+        cull()
+        print('Repopulating Networks')
+        x = len(networks)
+        Matchmaker(x)
+        Matchmaker(x)
+        for i in range(0,10,1):
+            networks.append(weights.network())
+        print(len(networks))
+        generation += 1
+        wins = []
+        for i in range(0,len(networks),1):
+            wins.append(0)
+        
+    
+    write(networks[wins.index(min(wins))],'T1')
+    del networks[wins.index(min(wins))]
+    del wins[wins.index(min(wins))]
+    write(networks[wins.index(min(wins))],'T2')
+    del networks[wins.index(min(wins))]
+    del wins[wins.index(min(wins))]
+    write(networks[wins.index(min(wins))],'T3')
+    del networks[wins.index(min(wins))]
+    del wins[wins.index(min(wins))]
+
+    write(networks[wins.index(max(wins))],'T-1')
+    del networks[wins.index(max(wins))]
+    del wins[wins.index(max(wins))]
+    write(networks[wins.index(max(wins))],'T-2')
+    del networks[wins.index(max(wins))]
+    del wins[wins.index(max(wins))]
+    write(networks[wins.index(max(wins))],'T-3')
+    del networks[wins.index(max(wins))]
+    del wins[wins.index(max(wins))]
+
+
 #### 4950 games are played per generation with 100 networks
 #### 5995 games are played per generation with 110 networks
-for i in range(0,generation_limit,1):
-    print('Training Networks')
-    train()
-    print(wins)
-    print('Culling Networks')    
-    cull()
-    print('Repopulating Networks')
-    x = len(networks)
-    Matchmaker(x)
-    Matchmaker(x)
-    for i in range(0,10,1):
-        networks.append(weights.network())
-    print(len(networks))
-    generation += 1
-    wins = []
-    for i in range(0,len(networks),1):
-        wins.append(0)
-    
-
-
-write(networks[wins.index(min(wins))],'1')
-del networks[wins.index(min(wins))]
-del wins[wins.index(min(wins))]
-write(networks[wins.index(min(wins))],'2')
-del networks[wins.index(min(wins))]
-del wins[wins.index(min(wins))]
-write(networks[wins.index(min(wins))],'3')
-
+##for i in range(0,generation_limit,1):
+##    print('Training Networks')
+##    train()
+##    print(wins)
+##    print('Culling Networks')    
+##    cull()
+##    print('Repopulating Networks')
+##    x = len(networks)
+##    Matchmaker(x)
+##    Matchmaker(x)
+##    for i in range(0,10,1):
+##        networks.append(weights.network())
+##    print(len(networks))
+##    generation += 1
+##    wins = []
+##    for i in range(0,len(networks),1):
+##        wins.append(0)
+##    
+##
+##
+##write(networks[wins.index(min(wins))],'1')
+##del networks[wins.index(min(wins))]
+##del wins[wins.index(min(wins))]
+##write(networks[wins.index(min(wins))],'2')
+##del networks[wins.index(min(wins))]
+##del wins[wins.index(min(wins))]
+##write(networks[wins.index(min(wins))],'3')
+##
