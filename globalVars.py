@@ -1,1 +1,1 @@
-turtleMode = False
+turtleMode = True

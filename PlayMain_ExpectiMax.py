@@ -33,7 +33,8 @@ while board.checkWin() == 0:
             turn += 1
             turn %= 2
             continue
-        # pieceToMove = input("ENTER PIECE TO MOVE: ")
+        #pieceToMove = input("ENTER PIECE TO MOVE: ")
+        #extraTurn = board.move(0, pieceToMove, moves)
         extraTurn = board.move(0,ExpectiMax.moveByExpectimax(init.boardState,ExpectiMax.Color.BLACK,moves,1),moves)#expectimax implementation
     else:
         #white turn

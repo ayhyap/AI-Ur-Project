@@ -31,7 +31,7 @@ def read(string):
         for row in rd:
             temp.append(row)
         for i in range(0,12,1):
-            networksBest[x].hiddenArray1[i] = temp[y]    
+            networksBest[x].hiddenArray1[i] = temp[y]
             y += 1
         for i in range(0,12,1):
             networksBest[x].hiddenArray2[i] = temp[y]
@@ -189,85 +189,75 @@ def trainWorker(i,j, return_queue, networkI, networkJ):
     return
 
 
-##def multiTrain():
-if __name__ == '__main__':
-    print "INITIALIZATION"
-    networksBest = []
-    networks = []
-    wins = []
+networksBest = []
 
-    generation = 0
-    generation_limit = 100
-
-    
-    #Generates 100 networks and initializes a list to count the amount of game wins for each network
-    for i in range(0,100,1):
-        networks.append(weights.network())
-        wins.append(0)
-
-    
-    queue1 = multiprocessing.Queue()
-    queue2 = multiprocessing.Queue()
-
-    queues = [queue1, queue2]
-
-
-    for h in range(0,generation_limit,1):
-    
-        print "==BEGIN " + str(h) + "th GENERATION ROUND ROBIN=="
-        for i in range(0, len(networks) - 1,1):
-            qIndex = i%2
-            print "Competitor: " + str(i)
-            jobs = []
-            for j in range(i+1, len(networks),1):
-                p = multiprocessing.Process(target = trainWorker, args=(i,j,queues[qIndex], networks[i], networks[j]))
-                jobs.append(p)
-                p.start()
-            qIndex = (i+1)%2
-            while queues[qIndex].empty() == False:
-                wins[queues[qIndex].get()] += 1
-            for proc in jobs:
-                proc.join()
-                
-        print str(h) + "th ROUND ROBIN RESULTS:"
-        print wins
-        print "Average: " + str(float(sum(wins))/len(wins))
-        print "Max: " + str(max(wins))
-        print "Min: " + str(min(wins))
-        print('Culling Networks')    
-        cull()
-        print('Repopulating Networks')
-        x = len(networks)
-        Matchmaker(x)
-        Matchmaker(x)
-        for i in range(0,10,1):
-            networks.append(weights.network())
-        print(len(networks))
-        generation += 1
+def multiTrain():
+    if __name__ == '__main__':
+        print "INITIALIZATION"
+        networks = []
         wins = []
-        for i in range(0,len(networks),1):
-            wins.append(0)
-        
-    
-    write(networks[wins.index(min(wins))],'1')
-    del networks[wins.index(min(wins))]
-    del wins[wins.index(min(wins))]
-    write(networks[wins.index(min(wins))],'2')
-    del networks[wins.index(min(wins))]
-    del wins[wins.index(min(wins))]
-    write(networks[wins.index(min(wins))],'3')
-    del networks[wins.index(min(wins))]
-    del wins[wins.index(min(wins))]
 
-    write(networks[wins.index(max(wins))],'-1')
-    del networks[wins.index(max(wins))]
-    del wins[wins.index(max(wins))]
-    write(networks[wins.index(max(wins))],'-2')
-    del networks[wins.index(max(wins))]
-    del wins[wins.index(max(wins))]
-    write(networks[wins.index(max(wins))],'-3')
-    del networks[wins.index(max(wins))]
-    del wins[wins.index(max(wins))]
+        generation = 0
+        generation_limit = 100
+
+        
+        #Generates 100 networks and initializes a list to count the amount of game wins for each network
+        for i in range(0,100,1):
+            networks.append(weights.network())
+            wins.append(0)
+
+        
+        queue1 = multiprocessing.Queue()
+        queue2 = multiprocessing.Queue()
+
+        queues = [queue1, queue2]
+
+
+        for h in range(0,generation_limit,1):
+        
+            print "==BEGIN " + str(h) + "th GENERATION ROUND ROBIN=="
+            for i in range(0, len(networks) - 1,1):
+                qIndex = i%2
+                print "Competitor: " + str(i)
+                jobs = []
+                for j in range(i+1, len(networks),1):
+                    p = multiprocessing.Process(target = trainWorker, args=(i,j,queues[qIndex], networks[i], networks[j]))
+                    jobs.append(p)
+                    p.start()
+                qIndex = (i+1)%2
+                while queues[qIndex].empty() == False:
+                    wins[queues[qIndex].get()] += 1
+                for proc in jobs:
+                    proc.join()
+                    
+            print str(h) + "th ROUND ROBIN RESULTS:"
+            print wins
+            print "Average: " + str(float(sum(wins))/len(wins))
+            print "Max: " + str(max(wins))
+            print "Min: " + str(min(wins))
+            print('Culling Networks')    
+            cull()
+            print('Repopulating Networks')
+            x = len(networks)
+            Matchmaker(x)
+            Matchmaker(x)
+            for i in range(0,10,1):
+                networks.append(weights.network())
+            print(len(networks))
+            generation += 1
+            wins = []
+            for i in range(0,len(networks),1):
+                wins.append(0)
+
+        write(networks[wins.index(max(wins))],'1')
+        del networks[wins.index(max(wins))]
+        del wins[wins.index(max(wins))]
+        write(networks[wins.index(max(wins))],'2')
+        del networks[wins.index(max(wins))]
+        del wins[wins.index(max(wins))]
+        write(networks[wins.index(max(wins))],'3')
+        del networks[wins.index(max(wins))]
+        del wins[wins.index(max(wins))]
 
 
 #### 4950 games are played per generation with 100 networks

@@ -252,25 +252,14 @@ if __name__ == '__main__':
         wins = []
         for i in range(0,len(networks),1):
             wins.append(0)
-        
-    
-    write(networks[wins.index(min(wins))],'T1')
-    del networks[wins.index(min(wins))]
-    del wins[wins.index(min(wins))]
-    write(networks[wins.index(min(wins))],'T2')
-    del networks[wins.index(min(wins))]
-    del wins[wins.index(min(wins))]
-    write(networks[wins.index(min(wins))],'T3')
-    del networks[wins.index(min(wins))]
-    del wins[wins.index(min(wins))]
 
-    write(networks[wins.index(max(wins))],'T-1')
+    write(networks[wins.index(max(wins))],'1')
     del networks[wins.index(max(wins))]
     del wins[wins.index(max(wins))]
-    write(networks[wins.index(max(wins))],'T-2')
+    write(networks[wins.index(max(wins))],'2')
     del networks[wins.index(max(wins))]
     del wins[wins.index(max(wins))]
-    write(networks[wins.index(max(wins))],'T-3')
+    write(networks[wins.index(max(wins))],'3')
     del networks[wins.index(max(wins))]
     del wins[wins.index(max(wins))]
 
