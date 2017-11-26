@@ -4,11 +4,20 @@ COMP3211 Project
 
 USES PYTHON 2.7.3
 
-Run playMain.py from python shell
+Run networkTraining_multiProcessing.py in cmd to train the networks using the genetic algorithm approach.
 
+Be sure to turn off the game graphic when training otherwise the program will attempt to open 100 instances of the graphic.
+
+After 100 generations the file will output the top 3 networks numbered 1 to 3 respectively. 
+
+For convenience, the three networks we have previously trained are included.
+
+Run playMain_Mix.py to play the game with either human, expectiMax, or neural network players.
 =====
 
-Change turtleMode to False in globalVars.py to disable graphics (for faster processing).
+Change turtleMode to False in turtleUI_bool.py to disable graphics (for faster processing).
+
+turleMode is set to True by default.
 
 All graphics-unrelated functions should still work. Rely on print init.boardState and other functions to check status.
 
@@ -31,9 +40,3 @@ Use board.getPiecePositions(color = 0 (black) or 1 (white)) to get a sorted arra
 Use init.resetBoard() to reset everything to the start state.
 
 Enter turtle.done() to be able to close the graphics window properly.
-
-======
-
-Extras:
-
-matchmaker.py contains a simple function that chooses pairs, gradually reducing the gap
