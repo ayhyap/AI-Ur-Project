@@ -117,18 +117,18 @@ if p2 == 'e':
         except:
             print("Invalid Input!")
 
-
-bwins = 0
-wwins = 0
-for _ in range(21):
-    play(p1,p2)
-    winner = interface.checkWin()
-    if winner == -1:
-        bwins += 1
-    elif winner == 1:
-        wwins += 1
-
-print("=====")
-print("=====")
-print("BLACK:", bwins)
-print("WHITE:", wwins)
+play(p1, p2)
+##bwins = 0
+##wwins = 0
+##for _ in range(21):
+##    play(p1,p2)
+##    winner = interface.checkWin()
+##    if winner == -1:
+##        bwins += 1
+##    elif winner == 1:
+##        wwins += 1
+##
+##print("=====")
+##print("=====")
+##print("BLACK:", bwins)
+##print("WHITE:", wwins)
