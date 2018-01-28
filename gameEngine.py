@@ -2,25 +2,27 @@ import turtle
 import board
 import globalvars
 
-#global score turtles, because i'm lazy
-whiteStartCount = 0
-blackStartCount = 0
-whiteEndCount = 0
-blackEndCount = 0
-
-
 #initialize piece turtles
 boardState = [[7,7],[0,0],[0,0],[0,0],[0,0],0,0,0,0,0,0,0,0,[0,0],[0,0],[0,0]]    #0 is none, negative integers is black, positive integers is white
 #             start   1     2     3     4*  1 2 3 4*5 6 7 8   1     2*   end      #for combined zones, [black, white]
 #               [0]   1     2     3     4   5 6 7 8 9 101112  13   14    15
 
+firstRun = True
+
 def setup():
+    global firstRun
+    if firstRun == False:
+        resetBoard()
+        return
+    
+    firstRun = False
+    
+    boardState = [[7,7],[0,0],[0,0],[0,0],[0,0],0,0,0,0,0,0,0,0,[0,0],[0,0],[0,0]]
+    global whiteStartCount
+    global blackStartCount 
+    global whiteEndCount
+    global blackEndCount
     if globalvars.turtleMode:
-        global whiteStartCount
-        global blackStartCount
-        global whiteEndCount
-        global blackEndCount
-        
         whiteStartCount = turtle.Turtle()
         blackStartCount = turtle.Turtle()
         whiteEndCount = turtle.Turtle()
@@ -48,11 +50,13 @@ def setup():
         blackEndCount.goto(200,-280)
         blackEndCount.write("0",False,"center",("Arial", 20, "normal"))
 
-        for i in range(7):
+    for i in range(7):
+        if globalvars.turtleMode:
             setScore(blackStartCount,i+1)
-            BlackPiece()
+        BlackPiece()
+        if globalvars.turtleMode:
             setScore(whiteStartCount,i+1)
-            WhitePiece()
+        WhitePiece()
 
 #helper functions:
 #sets input score turtle to display input value
@@ -110,12 +114,14 @@ class BlackPiece:
         if globalvars.turtleMode:
             #turtle stuff
             self.piece = turtle.Turtle()
+            self.piece.speed(0)
             self.piece.resizemode("user")
             self.piece.turtlesize(3,3,1)
             self.piece.up()
             self.piece.shape("circle")
             self.piece.fillcolor("black")
             self.piece.goto(BlackPiece.path[0][0],BlackPiece.path[0][1])
+            self.piece.speed(globalvars.turtlespeed)
 
         #housekeeping
         BlackPiece.pieceCount+=1
@@ -214,12 +220,14 @@ class WhitePiece:
         if globalvars.turtleMode:
             #turtle stuff
             self.piece = turtle.Turtle()
+            self.piece.speed(0)
             self.piece.resizemode("user")
             self.piece.turtlesize(3,3,1)
             self.piece.up()
             self.piece.shape("circle")
             self.piece.fillcolor("white")
             self.piece.goto(WhitePiece.path[0][0],WhitePiece.path[0][1])
+            self.piece.speed(globalvars.turtlespeed)
         
         #housekeeping
         WhitePiece.pieceCount+=1

@@ -5,6 +5,7 @@ import random
 #piece number 2 is the next one behind, and so on.
 #pieces in start pile are arbitrarily ordered
 #0 is black, 1 is white
+#returns true if extra move, false otherwise
 def move(color, piece, moves):
     temp = getPiecePositions(color)
     position = temp[piece - 1]
@@ -72,6 +73,9 @@ def getPiecePositions(color):
         for i in range(0, gameEngine.boardState[0][color], 1):
             positions.append(0)
 
+    if len(positions) != 7:
+        print(positions)
+        raise Exception("position array has only indices:", len(positions))
     return positions
 
 #checks if someone has won
