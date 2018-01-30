@@ -49,6 +49,6 @@ The branching factor is 35^n.
 
 Testing has revealed that expectimax performance increases with depth, but becomes much slower. In addition, increasing the depth has diminishing performance returns: depth 1 (d1) lost to d4 in all matches, but d2 and d4 were already quite evenly matched (46 - 54). 
 
-Curiously, d3 performed worse than d2 against d4 (42 - 58), though that could be a result of poor dicerolls.
+Curiously, d3 performed worse than d2 against d4 (42 - 58), and against d2 (48 - 52), though that could be a result of poor dicerolls.
 
-Perhaps worthy of note, is that odd depths stop their evaluation after one of their OWN moves, while even depths stop after an opponent's move.
+Perhaps worthy of note, is that odd depths stop their evaluation after one of their OWN moves, while even depths stop after an opponent's move. Thus, the last hypothetical move taken by odd depths is blindly chosen, and could be a bad punishable move.
